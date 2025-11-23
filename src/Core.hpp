@@ -8,6 +8,7 @@
 #include <numbers>
 #include <algorithm>
 #include <optional>
+#include <chrono>
 
 struct Vec2i
 {
@@ -99,6 +100,31 @@ namespace Colors
 	constexpr Col Green{ 0,255,0,255 };
 	constexpr Col Blue{ 0,0,255,255 };
 }
+
+class SecClock
+{
+public:
+	SecClock() : m_StartingTime(std::chrono::steady_clock::now()) {}
+
+	float restart()
+	{
+		auto now = std::chrono::steady_clock::now();
+		float difference = std::chrono::duration<float>(now - m_StartingTime).count();
+		m_StartingTime = now;
+
+		return difference;
+	}
+
+	float elapsed()
+	{
+		auto now = std::chrono::steady_clock::now();
+		return std::chrono::duration<float>(now - m_StartingTime).count();
+	}
+
+private:
+
+	std::chrono::steady_clock::time_point m_StartingTime;
+};
 
 inline std::ostream& operator<<(std::ostream& os, const Vec2& v) {
 	return os << "(x: " << v.x << ", y: " << v.y << ")";
