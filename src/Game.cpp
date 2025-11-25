@@ -102,18 +102,17 @@ void draw()
 
 		auto hit = s_Level.raycast(position, direction);
 
-		if (hit)
-		{
-			float perpendicularDistance = hit.value().distance * cosf(rayAngle - angle);
-			int32_t lineHeight = (int)(width / 2.0f / perpendicularDistance);
+		if (!hit) continue;
 
-			Renderer::drawCollumn(
-				column,
-				lineHeight,
-				hit.value().textureId,
-				hit.value().point,
-				hit.value().sideways
-			);
-		}
+		float perpendicularDistance = hit.value().distance * cosf(rayAngle - angle);
+		int32_t lineHeight = (int)(height / perpendicularDistance);
+
+		Renderer::drawCollumn(
+			column,
+			lineHeight,
+			hit.value().textureId,
+			hit.value().point,
+			hit.value().sideways
+		);
 	}
 }

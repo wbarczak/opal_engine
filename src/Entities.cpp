@@ -2,7 +2,7 @@
 
 #include "raylib.h"
 
-constexpr float k_MouseSpeed = 0.05f;
+constexpr float k_MouseSpeed = 0.08f;
 
 void Entities::Player::tick(float dt)
 {
