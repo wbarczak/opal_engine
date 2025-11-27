@@ -38,11 +38,5 @@ namespace Comp
 			radius(radius) {}
 	};
 
-	struct Controlable
-	{
-		bool active;
-
-		Controlable(bool active) :
-			active(active) {}
-	};
+	struct Controlable {};
 }

@@ -130,8 +130,9 @@ void spawnPlayer(Vec2 position)
 {
 	s_PlayerId = s_Entities.spawn();
 
-	//s_Entities.add<Comp::Controlable>(s_PlayerId, true);
+	s_Entities.add<Comp::Controlable>(s_PlayerId);
 	s_Entities.add<Comp::Transform>(s_PlayerId, position);
 	s_Entities.add<Comp::Velocity>(s_PlayerId, 3.0f, 20.0f, 20.f);
 	s_Entities.add<Comp::Collider>(s_PlayerId, 0.3f);
+	s_Entities.remove<Comp::Controlable>(s_PlayerId);
 }

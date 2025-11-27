@@ -6,19 +6,19 @@
 #include <utility>
 #include <cassert>
 
-template <typename T, size_t SIZE>
+template <typename T, size_t CAPACITY>
 class SparseSet
 {
 public:
-	SparseSet() : m_Sparse(SIZE, k_Empty)
+	SparseSet() : m_Sparse(CAPACITY, k_Empty)
 	{
-		m_Dense.reserve(SIZE);
-		m_Data.reserve(SIZE);
+		m_Dense.reserve(CAPACITY);
+		m_Data.reserve(CAPACITY);
 	}
 
 	void insert(size_t index, const T& item)
 	{
-		assert(index < SIZE);
+		assert(index < CAPACITY);
 		assert(m_Sparse[index] == k_Empty);
 
 		m_Data.push_back(item);
@@ -29,7 +29,7 @@ public:
 	template <typename ... Args>
 	void emplace(size_t index, Args&&... args)
 	{
-		assert(index < SIZE);
+		assert(index < CAPACITY);
 		assert(m_Sparse[index] == k_Empty);
 
 		m_Data.emplace_back(std::forward<Args>(args)...);
@@ -44,7 +44,7 @@ public:
 
 	void pop(size_t index)
 	{
-		assert(index < SIZE);
+		assert(index < CAPACITY);
 
 		const size_t denseIndex = m_Sparse[index];
 
@@ -79,7 +79,7 @@ public:
 
 	const T& at(size_t index) const
 	{
-		assert(index < SIZE);
+		assert(index < CAPACITY);
 		return m_Data[m_Sparse[index]];
 	}
 
@@ -95,7 +95,7 @@ public:
 
 	void clear()
 	{
-		m_Sparse.assign(SIZE, k_Empty);
+		m_Sparse.assign(CAPACITY, k_Empty);
 		m_Dense.clear();
 		m_Data.clear();
 	}
@@ -105,6 +105,16 @@ public:
 	public:
 
 		Iterator(SparseSet* set, size_t index) : m_Index(index), m_Set(set) {}
+
+		size_t index() const
+		{
+			return m_Index;
+		}
+
+		T& data() const
+		{
+			return m_Set->m_Data[m_Index];
+		}
 
 		std::pair<size_t, T&> operator*() const
 		{
@@ -129,8 +139,9 @@ public:
 
 	private:
 
+		friend SparseSet;
 		size_t m_Index;
-		SparseSet<T, SIZE>* m_Set;
+		SparseSet<T, CAPACITY>* m_Set;
 	};
 
 	Iterator begin()
@@ -141,6 +152,12 @@ public:
 	Iterator end()
 	{
 		return Iterator(this, m_Data.size());
+	}
+
+	Iterator popIterator(const Iterator& it)
+	{
+		pop(it.m_Index);
+		return it;
 	}
 
 private:
