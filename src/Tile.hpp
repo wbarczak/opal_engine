@@ -12,12 +12,10 @@ class Tile
 public:
 
 	Tile(const std::string& stringTextureId) :
-		m_TextureId(Renderer::getNumericalId(stringTextureId)),
-		m_Health() {}
+		m_TextureId(Renderer::getNumericalId(stringTextureId)) {}
 
 	Tile() :
-		m_TextureId(Renderer::NO_TEXTURE),
-		m_Health() {}
+		m_TextureId(Renderer::NO_TEXTURE) {}
 
 	TextureId textureId() const { return m_TextureId; }
 	bool isSolid() const { return m_TextureId != Renderer::NO_TEXTURE; }
@@ -25,5 +23,4 @@ public:
 private:
 
 	TextureId m_TextureId;
-	Components::Health m_Health;
 };

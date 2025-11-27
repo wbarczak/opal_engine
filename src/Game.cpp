@@ -8,12 +8,16 @@
 #include "Window.hpp"
 #include "World.hpp"
 #include "Entities.hpp"
+#include "EntityManager.hpp"
+#include "Systems.hpp"
 
 #include "raylib.h"
 
 constexpr float k_Fov = std::numbers::pi / 180.0f * 90.0f;
 
 static Entities::Player s_Player;
+
+static EntityManager s_Entities;
 
 static World s_Level;
 
@@ -80,6 +84,8 @@ void Game::loop()
 void tick(float dt)
 {
 	s_Player.tick(dt);
+
+	Systems::applyVelocity(s_Entities);
 }
 
 void draw()

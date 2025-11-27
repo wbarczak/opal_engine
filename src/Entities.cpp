@@ -17,8 +17,8 @@ void Entities::Player::tick(float dt)
 	if (direction.dot(direction) > 1e-6f) direction.normalize();
 	else direction = {};
 
-	Vec2 deltaDistance = m_Velocity.update(dt, direction) * dt;
-	deltaDistance = m_Colider.colideAgainstWorld(m_Transform.position, deltaDistance);
+	//Vec2 deltaDistance = m_Velocity.update(dt, direction) * dt;
+	//deltaDistance = m_Colider.colideAgainstWorld(m_Transform.position, deltaDistance);
 
-	m_Transform.position += deltaDistance;
+	//m_Transform.position += deltaDistance;
 }
