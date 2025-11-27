@@ -368,24 +368,24 @@ Vec2 Rect::resolve(const Cir& c) noexcept
 		{
 			if (left < right)
 			{
-				return (c.rad - left, 0.0f);
+				return Vec2(c.rad - left, 0.0f);
 			}
 
-			return (-(c.rad - right), 0.0f);
+			return Vec2(-(c.rad - right), 0.0f);
 		}
 
 		if (top < bottom)
 		{
-			return (0.0f, c.rad + top);
+			return Vec2(0.0f, -(c.rad - top));
 		}
 
-		return (0.0f, -(c.rad - bottom));
+		return Vec2(0.0f, -(c.rad - bottom));
 	}
 
 	Vec2 normal = difference / distance;
 	float penetration = c.rad - distance;
 
-	return normal * -penetration;
+	return normal * penetration;
 }
 
 Vec2 Cir::resolve(const Rect& r) noexcept
@@ -418,24 +418,24 @@ Vec2 Cir::resolve(const Rect& r) noexcept
 		{
 			if (left < right)
 			{
-				return (rad - left, 0.0f);
+				return Vec2(rad - left, 0.0f);
 			}
 
-			return (-(rad - right), 0.0f);
+			return Vec2(-(rad - right), 0.0f);
 		}
 
 		if (top < bottom)
 		{
-			return (0.0f, rad + top);
+			return Vec2(0.0f, -(rad - top));
 		}
 
-		return (0.0f, -(rad - bottom));
+		return Vec2(0.0f, -(rad - bottom));
 	}
 
 	Vec2 normal = difference / distance;
 	float penetration = rad - distance;
 
-	return normal * penetration;
+	return normal * -penetration;
 }
 
 Vec2 Cir::resolve(const Cir& c) noexcept

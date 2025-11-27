@@ -78,6 +78,7 @@ void tick(float dt)
 {
 	Systems::moveControlable(s_Context, dt);
 	Systems::applyVelocity(s_Context, dt);
+	Systems::resolveWorldColisions(s_Context);
 }
 
 void spawnPlayer(Vec2 position)

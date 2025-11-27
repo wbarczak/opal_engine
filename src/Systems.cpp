@@ -11,9 +11,47 @@ void Systems::resolveWorldColisions(GameContext& context)
 {
 	auto& transforms = context.entities.getSet<Comp::Transform>();
 
+	const int32_t worldWidth = context.level.width();
+	const int32_t worldHeight = context.level.height();
+
 	for (const auto& [id, transform] : transforms)
 	{
+		if (!context.entities.has<Comp::Collider>(id)) continue;
 
+		Cir bounds(
+			transform.position,
+			context.entities.get<Comp::Collider>(id).radius
+		);
+
+		Vec2i starting{
+			bounds.pos.x - bounds.rad,
+			bounds.pos.y - bounds.rad
+		};
+
+		Vec2i ending{
+			bounds.pos.x + bounds.rad,
+			bounds.pos.y + bounds.rad
+		};
+
+		Vec2 fullResolution;
+
+		for (int32_t y = starting.y; y <= ending.y; ++y)
+		{
+			if (y < 0 || y >= worldHeight) continue;
+
+			for (int32_t x = starting.x; x <= ending.x; ++x)
+			{
+				if (x < 0 || x >= worldWidth ||
+					!context.level.tile(y, x).isSolid())
+				{
+					continue;
+				}
+				
+				fullResolution += bounds.resolve(Rect(x, y, 1.0f, 1.0f));
+			}
+		}
+
+		transform.position += fullResolution;
 	}
 }
 
@@ -23,15 +61,16 @@ void Systems::applyVelocity(GameContext& context, float dt)
 
 	for (const auto& [id, velocity] : velocities)
 	{
-		if (context.entities.has<Comp::Transform>(id))
-		{
-			context.entities.get<Comp::Transform>(id).position += velocity.current * dt;
-		}
+		if (!context.entities.has<Comp::Transform>(id)) continue;
+
+		context.entities.get<Comp::Transform>(id).position += velocity.current * dt;
 	}
 }
 
 Vec2 calculateVelocity(float dt, Vec2 direction, GameContext& context, size_t id)
 {
+	if (!context.entities.has<Comp::Velocity>(id)) return {};
+
 	auto& velocity = context.entities.get<Comp::Velocity>(id);
 
 	if (direction.x == 0.0f && direction.y == 0.0f)
