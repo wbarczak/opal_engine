@@ -30,13 +30,8 @@ namespace Entities
 
 	private:
 
-		Components::Transform m_Transform;
-		Components::Velocity m_Velocity;
-		Components::Collider m_Colider;
+		Comp::Transform m_Transform;
+		Comp::Velocity m_Velocity;
+		Comp::Collider m_Colider;
 	};
-
-	/*class EntitySnapshot : public Entity
-	{
-
-	};*/
 }

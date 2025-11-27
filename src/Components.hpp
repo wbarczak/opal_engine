@@ -4,7 +4,7 @@
 #include <numeric>
 #include "Core.hpp"
 
-namespace Components
+namespace Comp
 {
 	struct Transform
 	{
@@ -36,5 +36,13 @@ namespace Components
 
 		Collider(float radius) :
 			radius(radius) {}
+	};
+
+	struct Controlable
+	{
+		bool active;
+
+		Controlable(bool active) :
+			active(active) {}
 	};
 }

@@ -1,6 +1,6 @@
 #include "Components.hpp"
 
-//Vec2 Components::Velocity::update(float dt, Vec2 direction)
+//Vec2 Comp::Velocity::update(float dt, Vec2 direction)
 //{
 //	if (direction.x == 0.0f && direction.y == 0.0f)
 //	{
@@ -26,7 +26,7 @@
 //	return current;
 //}
 //
-//Vec2 Components::Collider::colideAgainstWorld(Vec2 position, Vec2 deltaDistance)
+//Vec2 Comp::Collider::colideAgainstWorld(Vec2 position, Vec2 deltaDistance)
 //{
 //	return deltaDistance;
 //}

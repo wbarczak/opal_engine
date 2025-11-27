@@ -18,8 +18,10 @@ constexpr float k_Fov = std::numbers::pi / 180.0f * 90.0f;
 static Entities::Player s_Player;
 
 static EntityManager s_Entities;
-
 static World s_Level;
+
+static size_t s_PlayerId;
+static void spawnPlayer(Vec2 position);
 
 void Game::init()
 {
@@ -75,6 +77,7 @@ void Game::loop()
 		Renderer::drawCeiling(Colors::Gray);
 		Renderer::drawFloor(Colors::LightGray);
 
+		Systems::displayView(s_Entities, s_PlayerId);
 		draw();
 
 		Renderer::endDrawing();
@@ -121,4 +124,14 @@ void draw()
 			hit.value().sideways
 		);
 	}
+}
+
+void spawnPlayer(Vec2 position)
+{
+	s_PlayerId = s_Entities.spawn();
+
+	//s_Entities.add<Comp::Controlable>(s_PlayerId, true);
+	s_Entities.add<Comp::Transform>(s_PlayerId, position);
+	s_Entities.add<Comp::Velocity>(s_PlayerId, 3.0f, 20.0f, 20.f);
+	s_Entities.add<Comp::Collider>(s_PlayerId, 0.3f);
 }
